@@ -157,7 +157,7 @@ function random(num){
 
 
 function drag(obj){
-  var Fx = -0.5 * constant.drag * obj.area * constant.density * obj.velocity.x **3 /     Math.abs(obj.velocity.x);
+  var Fx = -0.5 * constant.drag * obj.area * constant.density * obj.velocity.x **3 /  Math.abs(obj.velocity.x);
    var Fy = -0.5 * constant.drag * obj.area * constant.density * obj.velocity.y **3 / Math.abs(obj.velocity.y);
   Fx = (isNaN(Fx) ? 0 : Fx);
   Fy = (isNaN(Fy) ? 0 : Fy);
