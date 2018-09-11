@@ -1,10 +1,10 @@
-var canvas = document.getElementById("canvas");  
-var ctx = canvas.getContext("2d");
-var width = canvas.width; 
-var height = canvas.height;  
-var frameRate = 1/80; // Seconds
-var frameDelay = frameRate * 1000; // ms       
-var loopTimer = false;   
+var canvas = document.getElementById("canvas"),  
+ctx = canvas.getContext("2d"),
+width = canvas.width,
+height = canvas.height,  
+frameRate = 1/80, // Seconds
+frameDelay = frameRate * 1000, // ms       
+loopTimer = false;   
        
 class Constant{   
     constructor(){
@@ -35,27 +35,27 @@ class Vector {
 	}
 
 	twoDrotate(theta, i, j) {
-		var iRot = this.values[i] * Math.cos(theta) - this.values[j] * Math.sin(theta);
-		var jRot = this.values[i] * Math.sin(theta) + this.values[j] * Math.cos(theta);
+		let iRot = this.values[i] * Math.cos(theta) - this.values[j] * Math.sin(theta),
+		jRot = this.values[i] * Math.sin(theta) + this.values[j] * Math.cos(theta);
 		return [iRot, jRot];
 	}
 
 
 	threeD_Rotoate_X(theta, i, j, k) {
-		var jRot = this.values[j] * Math.cos(theta) - this.values[k] * Math.sin(theta);
-		var kRot = this.values[j] * Math.sin(theta) + this.values[k] * Math.cos(theta);
+		let jRot = this.values[j] * Math.cos(theta) - this.values[k] * Math.sin(theta),
+		kRot = this.values[j] * Math.sin(theta) + this.values[k] * Math.cos(theta);
 		return [i, jRot, kRot];
 	}
 
 	threeD_Rotate_Y(theta, i, j, k) {
-		var iRot = this.values[i] * Math.cos(theta) - this.values[k] * Math.sin(theta);
-		var kRot = -this.value[i] * Math.cos(theta) + this.values[k] * Math.cos(theta);
+		let iRot = this.values[i] * Math.cos(theta) - this.values[k] * Math.sin(theta),
+		kRot = -this.value[i] * Math.cos(theta) + this.values[k] * Math.cos(theta);
 		return [iRot, j, kRot]
 	}
 
 	threeD_Rotoate_Z(theta, i, j, k) {
-		var iRot = this.values[i] * Math.cos(theta) - this.values[j] * Math.sin(theta);
-		var jRot = this.values[i] * Math.sin(theta) + this.values[j] * Math.cos(theta);
+		let iRot = this.values[i] * Math.cos(theta) - this.values[j] * Math.sin(theta),
+		jRot = this.values[i] * Math.sin(theta) + this.values[j] * Math.cos(theta);
 		return [iRot, jRot, k];
 	}
 
@@ -157,8 +157,8 @@ function random(num){
 
 
 function drag(obj){
-  var Fx = -0.5 * constant.drag * obj.area * constant.density * obj.velocity.x **3 /  Math.abs(obj.velocity.x);
-   var Fy = -0.5 * constant.drag * obj.area * constant.density * obj.velocity.y **3 / Math.abs(obj.velocity.y);
+  let Fx = -0.5 * constant.drag * obj.area * constant.density * obj.velocity.x **3 /  Math.abs(obj.velocity.x),
+  Fy = -0.5 * constant.drag * obj.area * constant.density * obj.velocity.y **3 / Math.abs(obj.velocity.y);
   Fx = (isNaN(Fx) ? 0 : Fx);
   Fy = (isNaN(Fy) ? 0 : Fy);
   return [Fx, Fy];
@@ -166,8 +166,8 @@ function drag(obj){
    
 
 function acceleration(obj){
-  var ax = drag(obj)[0] / obj.mass;
-  var ay = constant.gravity + (drag(obj)[1] / obj.mass);  
+   let ax = drag(obj)[0] / obj.mass,
+   ay = constant.gravity + (drag(obj)[1] / obj.mass);  
    obj.velocity.x += ax*frameRate;
    obj.velocity.y += ay*frameRate;  
    return [obj.velocity.x, obj.velocity.y]                                      
@@ -176,7 +176,7 @@ function acceleration(obj){
 
 
 function massCollision(a,b){          
-if(collision(a,b)) {                            
+  if(collision(a,b)) {                            
     b.velocity.x = (((2*a.mass)/a.mass+b.mass)*b.velocity.x) + (((b.mass-a.mass)/(a.mass+b.mass))*b.velocity.x)*frameRate*100    
     a.velocity.x = (((2*b.mass)/a.mass+b.mass)*a.velocity.x) + (((a.mass- b.mass)/(a.mass+b.mass))*a.velocity.x)*frameRate*100 
        
@@ -187,21 +187,21 @@ if(collision(a,b)) {
 
 
  function allPhysics(obj) {
-        var Fx = drag(obj)[0];
-        var Fy = drag(obj)[1];  
-           
-        Fx = (isNaN(Fx) ? 0 : Fx);
-        Fy = (isNaN(Fy) ? 0 : Fy); 
- 
-        obj.x += acceleration(obj)[0]*frameRate*100;
-        obj.y += acceleration(obj)[1]*frameRate*100;   
-    
-        walls(obj) 
+  let Fx = drag(obj)[0],
+  Fy = drag(obj)[1];  
+
+  Fx = (isNaN(Fx) ? 0 : Fx);
+  Fy = (isNaN(Fy) ? 0 : Fy); 
+
+  obj.x += acceleration(obj)[0]*frameRate*100-Fx;
+  obj.y += acceleration(obj)[1]*frameRate*100-Fy;   
+  walls(obj) 
 }      
 
 
-function makeBalls(items, num){        
-  for(var i = 0; i < num; i++){
+function makeBalls(items, num){
+  let i;
+  for(i = 0; i < num; i++){
     items.push(new Entity(1*i*random(15),1*i*random(6), random(2), random(40),-0.7) ) 
   }
   
@@ -209,7 +209,8 @@ function makeBalls(items, num){
 
 
 function drawAll(items){
-  for( var i = 0; i < items.length; i++){
+  let i;
+  for( i = 0; i < items.length; i++){
     items[i].draw()
     items[i].move()  
     walls(items[i]) 
@@ -227,5 +228,5 @@ function update(){
 } 
 
 
-var constant = new Constant()  
-var loopTimer = setInterval(update, frameDelay); 
+var constant = new Constant(),  
+loopTimer = setInterval(update, frameDelay); 
