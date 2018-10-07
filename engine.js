@@ -1,7 +1,7 @@
 var canvas = document.getElementById("canvas"),  
 ctx = canvas.getContext("2d"),
-width = canvas.width,
-height = canvas.height,  
+WIDTH = canvas.width,
+HEIGHT = canvas.height,  
 frameRate = 1/80, // Seconds
 frameDelay = frameRate * 1000, // ms       
 loopTimer = false;   
@@ -99,11 +99,10 @@ class Entity{
     }
   
   draw(){       
-    
     ctx.save();     
     ctx.beginPath();
     if (this.color == 1)   
-    ctx.fillStyle = "red"  
+    ctx.fillStyle = "red";  
     ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, true);
     ctx.fill();
     ctx.translate(this.x, this.y);  
@@ -119,7 +118,7 @@ class Entity{
 }
 
 function random(num){
-  return Math.floor(Math.random()*num)
+  return Math.floor(Math.random()*num);
 }
 
 
@@ -138,17 +137,17 @@ function random(num){
 
 
  function walls(obj){
-    if (obj.y > height - obj.radius) { 
+    if (obj.y > HEIGHT - obj.radius) { 
         obj.velocity.y *= obj.kx;  
-        obj.y = height - obj.radius;
+        obj.y = HEIGHT - obj.radius;
       
     }
-    if (obj.x > width - obj.radius) {
+    else if (obj.x > WIDTH - obj.radius) {
         obj.velocity.x *= obj.kx;
-        obj.x = width - obj.radius;
+        obj.x = WIDTH - obj.radius;
       
     }
-    if (obj.x < obj.radius) {
+    else if (obj.x < obj.radius) {
         obj.velocity.x *= obj.kx;
         obj.x = obj.radius;
       
@@ -177,8 +176,8 @@ function acceleration(obj){
 
 function massCollision(a,b){          
   if(collision(a,b)) {                            
-    b.velocity.x = (((2*a.mass)/a.mass+b.mass)*b.velocity.x) + (((b.mass-a.mass)/(a.mass+b.mass))*b.velocity.x)*frameRate*100    
-    a.velocity.x = (((2*b.mass)/a.mass+b.mass)*a.velocity.x) + (((a.mass- b.mass)/(a.mass+b.mass))*a.velocity.x)*frameRate*100 
+    b.velocity.x = (((2*a.mass)/a.mass+b.mass)*b.velocity.x) + (((b.mass-a.mass)/(a.mass+b.mass))*b.velocity.x)*frameRate*100;    
+    a.velocity.x = (((2*b.mass)/a.mass+b.mass)*a.velocity.x) + (((a.mass-b.mass)/(a.mass+b.mass))*a.velocity.x)*frameRate*100; 
        
   } 
 }
@@ -202,7 +201,7 @@ function massCollision(a,b){
 function makeBalls(items, num){
   let i;
   for(i = 0; i < num; i++){
-    items.push(new Entity(1*i*random(15),1*i*random(6), random(2), random(40),-0.7) ) 
+    items.push(new Entity(1*i*random(15),1*i*random(6)  , random(2), random(40),-0.7) ) 
   }
   
 }
@@ -211,22 +210,23 @@ function makeBalls(items, num){
 function drawAll(items){
   let i;
   for( i = 0; i < items.length; i++){
-    items[i].draw()
-    items[i].move()  
-    walls(items[i]) 
-    massCollision(items[i],items[i+1])      
-      
+    items[i].draw();
+    items[i].move();  
+    walls(items[i]); 
+   // massCollision(items[i],items[i-1]);      
   }
 }
 
-var sprites = [] 
-makeBalls(sprites, 4)  
+var sprites = [];
+makeBalls(sprites, 4);
 function update(){
-  ctx.clearRect(0,0,width,height);
-  drawAll(sprites) 
+  ctx.clearRect(0,0,WIDTH,HEIGHT);
+  drawAll(sprites);
+
+  
  
 } 
 
 
-var constant = new Constant(),  
-loopTimer = setInterval(update, frameDelay); 
+var constant = new Constant(); 
+setInterval(update, frameDelay); 
