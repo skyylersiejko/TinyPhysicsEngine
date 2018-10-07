@@ -50,7 +50,7 @@ class Vector {
 	threeD_Rotate_Y(theta, i, j, k) {
 		let iRot = this.values[i] * Math.cos(theta) - this.values[k] * Math.sin(theta),
 		kRot = -this.value[i] * Math.cos(theta) + this.values[k] * Math.cos(theta);
-		return [iRot, j, kRot]
+		return [iRot, j, kRot];
 	}
 
 	threeD_Rotoate_Z(theta, i, j, k) {
@@ -69,13 +69,13 @@ class Vector {
   
   flip(){
     if (this.direction == 1){
-      this.direction = 3 
+      this.direction = 3; 
     } else if (this.direction == 3){
-      this.direction = 1
+      this.direction = 1;
     }else if (this.direction == 2){
-      this.direction = 4
+      this.direction = 4;
     }else if (this.direction == 4){
-      this.direction = 2
+      this.direction = 2;
     }
      
   }
@@ -90,12 +90,12 @@ class Entity{
         this.x = x; 
         this.y = y;  
         this.mass = mass; 
-        this.radius = radius  
+        this.radius = radius;  
         this.kx = kx;
         this.velocity = {x:random(5), y:0}
         this.vector = new Vector(this.x, this.y, 0, 1) ;       
         this.area =  Math.PI * this.radius * this.radius / (10000); 
-        this.color = random(2)  
+        this.color = random(2);  
     }
   
   draw(){       
@@ -169,7 +169,7 @@ function acceleration(obj){
    ay = constant.gravity + (drag(obj)[1] / obj.mass);  
    obj.velocity.x += ax*frameRate;
    obj.velocity.y += ay*frameRate;  
-   return [obj.velocity.x, obj.velocity.y]                                      
+   return [obj.velocity.x, obj.velocity.y];                                     
 }   
  
 
@@ -194,14 +194,14 @@ function massCollision(a,b){
 
   obj.x += acceleration(obj)[0]*frameRate*100-Fx;
   obj.y += acceleration(obj)[1]*frameRate*100-Fy;   
-  walls(obj) 
+  walls(obj);
 }      
 
 
 function makeBalls(items, num){
   let i;
   for(i = 0; i < num; i++){
-    items.push(new Entity(1*i*random(15),1*i*random(6)  , random(2), random(40),-0.7) ) 
+    items.push(new Entity(1*i*random(15),1*i*random(6)  , random(2), random(40),-0.7)); 
   }
   
 }
