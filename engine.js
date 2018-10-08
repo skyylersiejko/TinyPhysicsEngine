@@ -4,7 +4,45 @@ WIDTH = canvas.width,
 HEIGHT = canvas.height,  
 frameRate = 1/80, // Seconds
 frameDelay = frameRate * 1000, // ms       
-loopTimer = false;   
+loopTimer = false; 
+canvas.onmousedown = myDown;
+canvas.onmouseup = myUp;
+
+
+var requestInterval = function (fn, delay) {
+  var requestAnimFrame = (function () {
+    return window.requestAnimationFrame || function (callback, element) {
+      window.setTimeout(callback,  frameDelay);
+    };
+  })(),
+      start = new Date().getTime(),
+      handle = {};
+  function loop() {
+    handle.value = requestAnimFrame(loop);
+    var current = new Date().getTime(),
+        delta = current - start;
+    if (delta >= delay) {
+      fn.call();
+      start = new Date().getTime();
+    }
+  }
+  handle.value = requestAnimFrame(loop);
+  return handle;
+};
+
+function myUp(){
+  canvas.onmousemove = null;
+}
+
+function myDown(e){
+  mouseX = (e.pageX - canvas.offsetLeft);
+  mouseY = (e.pageY - canvas.offsetTop);
+  //game code 
+}
+
+
+
+
        
 class Constant{   
     constructor(){
@@ -217,16 +255,13 @@ function drawAll(items){
   }
 }
 
-var sprites = [];
-makeBalls(sprites, 4);
+var ball = new Entity(0,0,1,10, -.75);
 function update(){
   ctx.clearRect(0,0,WIDTH,HEIGHT);
-  drawAll(sprites);
-
-  
- 
+  ball.draw();
+  allPhysics(ball);
 } 
 
 
 var constant = new Constant(); 
-setInterval(update, frameDelay); 
+requestInterval(update, frameDelay); 
